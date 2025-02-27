@@ -1,6 +1,7 @@
 import { Handler } from "express";
 import { prisma } from "../database";
 import { CreateLeadRequestSchema } from "../schemas/LeadsRequestSchema";
+import { HttpError } from "../errors/HttpError";
 
 export class LeadsController {
   index: Handler = async (req, res, next) => {
@@ -33,6 +34,9 @@ export class LeadsController {
           campaigns: true
         }
       })
+
+      if (!lead) throw new HttpError(400, "lead not found");
+      
 
       res.json(lead)
     } catch (error) {
