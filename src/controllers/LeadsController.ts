@@ -59,4 +59,19 @@ export class LeadsController {
       next(error)
     }
   }
+
+  delete: Handler = async(req, res, next) => {
+    try {
+      const id = Number(req.params.id)
+
+      const leadIdExists = await prisma.lead.findUnique({ where: { id } })
+      if (!leadIdExists) throw new HttpError(404, "lead not found");
+
+      const deletedLead = await prisma.lead.delete({ where: { id }})
+
+      res.json({ deletedLead })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
