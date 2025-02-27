@@ -23,4 +23,20 @@ export class LeadsController {
       next(error)
     }
   }
+
+  show: Handler = async(req, res, next) => {
+    try {
+      const lead = await prisma.lead.findUnique({
+        where: { id: Number(req.params.id) },
+        include: {
+          groups: true,
+          campaigns: true
+        }
+      })
+
+      res.json(lead)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
