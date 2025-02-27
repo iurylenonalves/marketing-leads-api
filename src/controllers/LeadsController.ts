@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { prisma } from "../database";
-import { CreateLeadRequestSchema } from "../schemas/LeadsRequestSchema";
+import { CreateLeadRequestSchema, UpdateLeadRequestSchema } from "../schemas/LeadsRequestSchema";
 import { HttpError } from "../errors/HttpError";
 
 export class LeadsController {
@@ -39,6 +39,22 @@ export class LeadsController {
       
 
       res.json(lead)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  update: Handler = async(req, res, next) => {
+    try {
+      const id = Number(req.params.id)
+      const body = UpdateLeadRequestSchema.parse(req.body)
+
+      const leadExists = await prisma.lead.findUnique({ where: { id } })
+      if (!leadExists) throw new HttpError(404, "lead not found");
+
+      const updatedLead = await prisma.lead.update({ data: body, where: { id } })
+
+      res.json(updatedLead)
     } catch (error) {
       next(error)
     }
