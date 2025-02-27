@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { HttpError } from "./errors/HttpError";
+import { LeadsController } from "./controllers/LeadsController";
 
 const router = Router()
+
+const leadsController = new LeadsController()
+
+router.get("/leads", leadsController.index)
 
 router.get("/status", async (req,res, next) => {
   try {
