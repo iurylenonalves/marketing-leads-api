@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+export const GetLeadsRequestSchema = z.object({
+  name: z.string().optional(),
+  page: z.string().optional(),
+  pageSize: z.string().optional(),
+  status: z.enum([
+    "New",
+    "Contacted",
+    "Qualified",
+    "Converted",
+    "Unresponsive",
+    "Disqualified",
+    "Archived",
+  ]).optional()
+})
+
 export const CreateLeadRequestSchema = z.object({
   name: z.string(),
   email: z.string(),
