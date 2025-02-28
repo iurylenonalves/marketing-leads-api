@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { prisma } from "../database";
-import { CreateGroupsRequestSchema } from "../schemas/GroupsRequestSchema";
+import { CreateGroupsRequestSchema, UpdateGroupsRequestSchema } from "../schemas/GroupsRequestSchema";
 import { HttpError } from "../errors/HttpError";
 
 export class GroupsController {
@@ -39,4 +39,20 @@ export class GroupsController {
       next(error)
     }
   }
+
+  update: Handler = async(req, res, next) => {
+      try {
+        const id = Number(req.params.id)
+        const body = UpdateGroupsRequestSchema.parse(req.body)
+  
+        const groupExists = await prisma.lead.findUnique({ where: { id } })
+        if (!groupExists) throw new HttpError(404, "lead not found");
+  
+        const updatedGroup = await prisma.lead.update({ data: body, where: { id } })
+  
+        res.json(updatedGroup)
+      } catch (error) {
+        next(error)
+      }
+    }
 }
