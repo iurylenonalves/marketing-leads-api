@@ -15,6 +15,7 @@ router.put("/leads/:id", leadsController.update)
 router.delete("/leads/:id", leadsController.delete)
 
 router.get("/groups", groupsController.index)
+router.post("/groups", groupsController.create)
 
 
 router.get("/status", async (req,res, next) => {
