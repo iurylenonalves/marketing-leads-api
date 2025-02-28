@@ -1,7 +1,7 @@
 import { Handler } from "express";
 import { prisma } from "../database";
 
-export class CampaingnsController {
+export class CampaignsController {
   index: Handler = async (req, res, next) => {
     try {
       const campaigns = await prisma.campaign.findMany()

@@ -2,13 +2,13 @@ import { Router } from "express";
 import { HttpError } from "./errors/HttpError";
 import { LeadsController } from "./controllers/LeadsController";
 import { GroupsController } from "./controllers/GroupsController";
-import { CampaingnsController } from "./controllers/CampaingnsController";
+import { CampaignsController } from "./controllers/CampaignsController";
 
 const router = Router()
 
 const leadsController = new LeadsController()
 const groupsController = new GroupsController()
-const campaingnsController = new CampaingnsController()
+const campaignsController = new CampaignsController()
 
 router.get("/leads", leadsController.index)
 router.post("/leads", leadsController.create)
@@ -22,7 +22,7 @@ router.get("/groups/:id", groupsController.show)
 router.put("/groups/:id", groupsController.update)
 router.delete("/groups/:id", groupsController.delete)
 
-router.get("/campaigns", campaingnsController.index)
+router.get("/campaigns", campaignsController.index)
 
 
 router.get("/status", async (req,res, next) => {
