@@ -48,7 +48,6 @@ model Campaign {
   description String
   startDate   DateTime
   endDate     DateTime?
-  groupId     Int
   leads       LeadCampaign[]
 }
 
