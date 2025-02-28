@@ -18,6 +18,7 @@ router.get("/groups", groupsController.index)
 router.post("/groups", groupsController.create)
 router.get("/groups/:id", groupsController.show)
 router.put("/groups/:id", groupsController.update)
+router.delete("/groups/:id", groupsController.delete)
 
 
 router.get("/status", async (req,res, next) => {
