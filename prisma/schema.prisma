@@ -14,10 +14,10 @@ datasource db {
 }
 
 model Group {
-  id           Int    @id @default(autoincrement())
-  name         String @unique @db.VarChar(255)
-  descripition String
-  leads        Lead[] @relation("GroupLeads")
+  id          Int    @id @default(autoincrement())
+  name        String @unique @db.VarChar(255)
+  description String
+  leads       Lead[] @relation("GroupLeads")
 }
 
 model Lead {
