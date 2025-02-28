@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const GetGroupsRequestSchema = z.object({
+export const CreateGroupsRequestSchema = z.object({
   name: z.string(),
   description: z.string()
 })
