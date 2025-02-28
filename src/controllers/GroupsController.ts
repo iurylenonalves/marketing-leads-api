@@ -55,4 +55,19 @@ export class GroupsController {
         next(error)
       }
     }
+
+    delete: Handler = async(req, res, next) => {
+      try {
+        const id = Number(req.params.id)
+  
+        const groupIdExists = await prisma.group.findUnique({ where: { id } })
+        if (!groupIdExists) throw new HttpError(404, "lead not found");
+  
+        const deletedGroup = await prisma.group.delete({ where: { id }})
+  
+        res.json({ deletedGroup })
+      } catch (error) {
+        next(error)
+      }
+    }
 }
