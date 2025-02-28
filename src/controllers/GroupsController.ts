@@ -45,10 +45,10 @@ export class GroupsController {
         const id = Number(req.params.id)
         const body = UpdateGroupsRequestSchema.parse(req.body)
   
-        const groupExists = await prisma.lead.findUnique({ where: { id } })
+        const groupExists = await prisma.group.findUnique({ where: { id } })
         if (!groupExists) throw new HttpError(404, "lead not found");
   
-        const updatedGroup = await prisma.lead.update({ data: body, where: { id } })
+        const updatedGroup = await prisma.group.update({ data: body, where: { id } })
   
         res.json(updatedGroup)
       } catch (error) {
