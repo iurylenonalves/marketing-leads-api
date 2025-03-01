@@ -26,6 +26,7 @@ router.get("/campaigns", campaignsController.index)
 router.post("/campaigns", campaignsController.create)
 router.get("/campaigns/:id", campaignsController.show)
 router.put("/campaigns/:id", campaignsController.update)
+router.delete("/campaigns/:id", campaignsController.delete)
 
 
 router.get("/status", async (req,res, next) => {
