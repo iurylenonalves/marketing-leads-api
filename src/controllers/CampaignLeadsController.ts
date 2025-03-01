@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { Prisma } from "@prisma/client";
-import { GetCampaignLeadsRequestSchema } from "../schemas/CampaignsRequestSchema";
+import { AddLeadRequestSchema, GetCampaignLeadsRequestSchema } from "../schemas/CampaignsRequestSchema";
 import { prisma } from "../database";
 
 export class CampaignLeadsController {
@@ -49,6 +49,22 @@ export class CampaignLeadsController {
           totalPages: Math.ceil(totalLeads / pageSizeNumber)
         }
       })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  addLead: Handler = async (req, res, next) => {
+    try {
+      const body = AddLeadRequestSchema.parse(req.body)
+      await prisma.leadCampaign.create({
+        data: {
+          campaignId: Number(req.params.campaignId),
+          leadId: body.leadId,
+          status: body.status
+        }
+      })
+      res.status(201).end()
     } catch (error) {
       next(error)
     }
