@@ -22,4 +22,25 @@ export class CampaignsController {
       next(error)
     }
   }
+
+  show: Handler = async (req, res, next) => {
+    try {
+      const campaign = await prisma.campaign.findUnique({
+        where: { id: Number(req.params.id) },
+        include: { 
+          leads: {
+            include: {
+              lead: true
+            }
+          } 
+        }
+      })
+
+      if (!campaign) throw new HttpError(404, "campaign not found")
+
+      res.json(campaign)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
