@@ -38,6 +38,8 @@ router.put("/campaigns/:campaignId/leads/:leadId", campaignLeadsController.updat
 router.delete("/campaigns/:campaignId/leads/:leadId", campaignLeadsController.removeLead)
 
 router.get("/groups/:groupId/leads", groupLeadsController.getLeads)
+router.post("/groups/:groupId/leads", groupLeadsController.addLead)
+router.delete("/groups/:groupId/leads/:leadId", groupLeadsController.removeLead)
 
 
 router.get("/status", async (req,res, next) => {
