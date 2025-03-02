@@ -2,6 +2,7 @@ import { Handler } from "express";
 import { GetLeadsRequestSchema } from "../schemas/LeadsRequestSchema";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../database";
+import { AddLeadRequestSchema } from "../schemas/GroupsRequestSchema";
 
 
 export class GroupLeadsController {
@@ -44,6 +45,43 @@ export class GroupLeadsController {
           totalPages: Math.ceil(totalLeads / pageSizeNumber)
         }
       })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  addLead: Handler = async (req, res, next) => {
+    try {
+      const body = AddLeadRequestSchema.parse(req.body)
+      const updatedGroup = await prisma.group.update({
+        where: {
+          id: Number(req.params.groupId)
+        },
+        data: {
+          leads: {
+            connect: { id: body.leadId }
+          }
+        },
+        include: { leads: true }
+      })
+      res.status(201).json(updatedGroup)
+    } catch (error) {
+      next
+    }
+  }
+
+  removeLead: Handler = async (req, res, next) => {
+    try {
+      const updatedGroup = await prisma.group.update({
+        where: { id: Number(req.params.groupId) },
+        data: {
+          leads: {
+            disconnect: { id: Number(req.params.leadId) }
+          }
+        },
+        include: { leads: true }
+      })
+      res.json(updatedGroup)
     } catch (error) {
       next(error)
     }
