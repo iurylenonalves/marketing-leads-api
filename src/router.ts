@@ -5,10 +5,13 @@ import { GroupsController } from "./controllers/GroupsController";
 import { CampaignsController } from "./controllers/CampaignsController";
 import { CampaignLeadsController } from "./controllers/CampaignLeadsController";
 import { GroupLeadsController } from "./controllers/GroupLeadsController";
+import { PrismaLeadsRepository } from "./repositories/prisma/PrismaLeadsRepository";
 
 const router = Router()
 
-const leadsController = new LeadsController()
+const leadsRepository = new PrismaLeadsRepository()
+
+const leadsController = new LeadsController(leadsRepository)
 const groupsController = new GroupsController()
 const campaignsController = new CampaignsController()
 const campaignLeadsController = new CampaignLeadsController()
