@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { prisma } from "../database";
-import { createCampaignsRequestSchema, updateCampaignsRequestSchema } from "../schemas/CampaignsRequestSchema";
+import { createCampaignsRequestSchema, updateCampaignsRequestSchema } from "./schemas/CampaignsRequestSchema";
 import { HttpError } from "../errors/HttpError";
 
 export class CampaignsController {

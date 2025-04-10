@@ -1,8 +1,8 @@
 import { Handler } from "express";
-import { GetLeadsRequestSchema } from "../schemas/LeadsRequestSchema";
+import { GetLeadsRequestSchema } from "./schemas/LeadsRequestSchema";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../database";
-import { AddLeadRequestSchema } from "../schemas/GroupsRequestSchema";
+import { AddLeadRequestSchema } from "./schemas/GroupsRequestSchema";
 
 
 export class GroupLeadsController {

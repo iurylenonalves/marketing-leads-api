@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { Prisma } from "@prisma/client";
-import { AddLeadRequestSchema, GetCampaignLeadsRequestSchema, UpdateLeadStatusRequestSchema } from "../schemas/CampaignsRequestSchema";
+import { AddLeadRequestSchema, GetCampaignLeadsRequestSchema, UpdateLeadStatusRequestSchema } from "./schemas/CampaignsRequestSchema";
 import { prisma } from "../database";
 
 

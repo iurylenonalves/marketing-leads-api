@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { prisma } from "../database";
-import { CreateGroupsRequestSchema, UpdateGroupsRequestSchema } from "../schemas/GroupsRequestSchema";
+import { CreateGroupsRequestSchema, UpdateGroupsRequestSchema } from "./schemas/GroupsRequestSchema";
 import { HttpError } from "../errors/HttpError";
 
 export class GroupsController {

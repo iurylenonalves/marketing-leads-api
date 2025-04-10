@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { prisma } from "../database";
-import { CreateLeadRequestSchema, GetLeadsRequestSchema, UpdateLeadRequestSchema } from "../schemas/LeadsRequestSchema";
+import { CreateLeadRequestSchema, GetLeadsRequestSchema, UpdateLeadRequestSchema } from "./schemas/LeadsRequestSchema";
 import { HttpError } from "../errors/HttpError";
 import { Prisma } from "@prisma/client";
 
