@@ -7,7 +7,12 @@ export class PrimaGroupsRepository implements GroupsRepository{
   }
 
   findById(id: number): Promise<GroupModel | null> {
-    return prisma.group.findUnique({ where: { id }  })
+    return prisma.group.findUnique({ 
+      where: { id },
+      include: {
+        leads: true
+      }
+    })
   }
 
   create(attributes: CreateGroupAttributes): Promise<GroupModel> {
