@@ -1,4 +1,4 @@
-export interface CampaingModel {
+export interface CampaignModel {
   id: number
   name: string
   description: string
@@ -6,33 +6,34 @@ export interface CampaingModel {
   endDate: Date | null
 }
 
-export type LeadCampignStatus = 
+export type LeadCampaignStatus = 
   "New" | "Engaged" | "FollowUp_Scheduled" | "Contacted" | "Qualified" | 
   "Converted" | "Unresponsive" | "Disqualified" | "Re_Engaged" | "Opted_Out"
 
-export interface CreateCampignAttributes {
+export interface CreateCampaignAttributes {
   name: string
   description: string
   startDate: Date
   endDate?: Date
 }
 
-export type LeadCampaignStatus = 
- "New" | "Engaged" | "FollowUp_Scheduled" | "Contacted" | "Qualified" | 
- "Converted" | "Unresponsive" | "Disqualified" | "Re_Engaged" | "Opted_Out"
-
 export interface AddLeadToCampaignAttributes {
   campaignId: number
   leadId: number
-  status: LeadCampignStatus
+  status: LeadCampaignStatus
+}
+
+export interface FindOptions {
+  limit?: number
+  offset?: number
 }
 
 export interface CampaignsRepository {
-  find: () => Promise<CampaingModel[]>
-  findById: (id: number) => Promise<CampaingModel | null>
-  create: (attributes: CreateCampignAttributes) => Promise<CampaingModel>
-  updateById: (id: number, attributes: Partial<CreateCampignAttributes>) => Promise<CampaingModel | null>
-  deleteById: (id: number) => Promise<CampaingModel | null>
+  find: () => Promise<CampaignModel[]>
+  findById: (id: number) => Promise<CampaignModel | null>
+  create: (attributes: CreateCampaignAttributes) => Promise<CampaignModel>
+  updateById: (id: number, attributes: Partial<CreateCampaignAttributes>) => Promise<CampaignModel | null>
+  deleteById: (id: number) => Promise<CampaignModel | null>
   addLead: (attributes: AddLeadToCampaignAttributes) => Promise<void>
   updateLeadStatus: (attributes: AddLeadToCampaignAttributes) => Promise<void>
   removeLead: (campaignId: number, leadId: number) => Promise<void>

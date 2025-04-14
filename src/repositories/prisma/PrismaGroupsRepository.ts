@@ -1,7 +1,7 @@
 import { prisma } from "../../database";
 import { CreateGroupAttributes, GroupModel, GroupsRepository } from "../GroupsRepository";
 
-export class PrimaGroupsRepository implements GroupsRepository{
+export class PrismaGroupsRepository implements GroupsRepository{
   find(): Promise<GroupModel[]> {
     return prisma.group.findMany()
   }
