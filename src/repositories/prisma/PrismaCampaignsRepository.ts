@@ -1,12 +1,12 @@
 import { prisma } from "../../database";
-import { AddLeadToCampaignAttributes, CampaignsRepository, CampaingModel, CreateCampignAttributes } from "../CampaignsRepository";
+import { AddLeadToCampaignAttributes, CampaignsRepository, CampaignModel, CreateCampaignAttributes } from "../CampaignsRepository";
 
 export class PrismaCampaignsRepository implements CampaignsRepository {
-  find(): Promise<CampaingModel[]> {
+  find(): Promise<CampaignModel[]> {
     return prisma.campaign.findMany()
   }
 
-  findById(id: number): Promise<CampaingModel | null> {
+  findById(id: number): Promise<CampaignModel | null> {
     return prisma.campaign.findUnique({
       where: { id },
       include: {
@@ -19,11 +19,11 @@ export class PrismaCampaignsRepository implements CampaignsRepository {
     })
   }
 
-  create(attributes: CreateCampignAttributes): Promise<CampaingModel> {
+  create(attributes: CreateCampaignAttributes): Promise<CampaignModel> {
     return prisma.campaign.create({ data: attributes })
   }
 
-  async updateById(id: number, attributes: Partial<CreateCampignAttributes>): Promise<CampaingModel | null> {
+  async updateById(id: number, attributes: Partial<CreateCampaignAttributes>): Promise<CampaignModel | null> {
     const campaignExists = await prisma.campaign.findUnique({ where: { id } })
     if (!campaignExists) return null
     return prisma.campaign.update({
@@ -33,8 +33,8 @@ export class PrismaCampaignsRepository implements CampaignsRepository {
 
   }
 
-  async deleteById(id: number): Promise<CampaingModel | null> {
-    const campaignExists = prisma.campaign.findUnique({ where: { id } })
+  async deleteById(id: number): Promise<CampaignModel | null> {
+    const campaignExists = await prisma.campaign.findUnique({ where: { id } })
     if (!campaignExists) return null
     return prisma.campaign.delete({ where: { id } })
   }
@@ -44,12 +44,19 @@ export class PrismaCampaignsRepository implements CampaignsRepository {
   }
 
   async updateLeadStatus(attributes: AddLeadToCampaignAttributes): Promise<void> {
-    await prisma.leadCampaign.update({ 
-      data: attributes,
+    const { campaignId, leadId, status } = attributes;
+  
+    await prisma.leadCampaign.update({
       where: {
-        leadId_campaignId: attributes
-      }        
-    })
+        leadId_campaignId: {
+          campaignId,
+          leadId
+        }
+      },
+      data: {
+        status
+      }
+    });
   }
 
   async removeLead(campaignId: number, leadId: number): Promise<void> {
@@ -58,5 +65,20 @@ export class PrismaCampaignsRepository implements CampaignsRepository {
         leadId_campaignId: { campaignId, leadId }
       }
     })
+  }
+  
+  async exists(id: number): Promise<boolean> {
+    const count = await prisma.campaign.count({
+      where: { id }
+    });
+    return count > 0;
+  }
+
+  async getLeadInCampaign(campaignId: number, leadId: number): Promise<any | null> {
+    return prisma.leadCampaign.findUnique({
+      where: {
+        leadId_campaignId: { campaignId, leadId }
+      }
+    });
   }
 }

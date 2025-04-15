@@ -37,4 +37,6 @@ export interface CampaignsRepository {
   addLead: (attributes: AddLeadToCampaignAttributes) => Promise<void>
   updateLeadStatus: (attributes: AddLeadToCampaignAttributes) => Promise<void>
   removeLead: (campaignId: number, leadId: number) => Promise<void>
+  exists: (id: number) => Promise<boolean>
+  getLeadInCampaign: (campaignId: number, leadId: number) => Promise<any | null>
 }

@@ -64,6 +64,13 @@ export class PrismaLeadsRepository implements LeadsRepository {
     return prisma.lead.count({ where: prismaWhere })
   }
 
+  async exists(id: number): Promise<boolean> {
+    const count = await prisma.lead.count({
+      where: { id }
+    });
+    return count > 0;
+  }
+
   async create(atributes: CreateLeadAttributes): Promise<Lead>{
     return prisma.lead.create({ data: atributes })
   }

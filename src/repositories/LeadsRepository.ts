@@ -38,6 +38,7 @@ export interface LeadsRepository {
   find: (params: FindLeadsParams) => Promise<Lead[]>
   findById: (id: number) => Promise<Lead | null>
   count: (where: LeadWhereParams) => Promise<number>
+  exists: (id: number) => Promise<boolean>
   create: (atributes: CreateLeadAttributes) => Promise<Lead>
   updateById: (id: number, attributes: Partial<CreateLeadAttributes>) => Promise<Lead | null>
   deleteById: (id: number) => Promise<Lead | null>
