@@ -49,4 +49,19 @@ export class PrismaGroupsRepository implements GroupsRepository{
       include: { leads: true }
     })
   }
+
+  async hasLead(groupId: number, leadId: number): Promise<boolean> {    
+    const group = await prisma.group.findFirst({
+      where: {
+        id: groupId,
+        leads: {
+          some: {
+            id: leadId
+          }
+        }
+      }
+    });
+    
+    return !!group;
+  }
 }

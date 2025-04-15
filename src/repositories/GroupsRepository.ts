@@ -2,6 +2,7 @@ export interface GroupModel {
   id: number
   name: string
   description: string
+  leads?: any[]
 }
 
 export interface CreateGroupAttributes {
@@ -17,4 +18,5 @@ export interface GroupsRepository {
   deleteById: (id: number) => Promise<GroupModel | null>
   addLead: (groupId: number, leadId: number) => Promise<GroupModel>
   removeLead: (groupId: number, leadId: number) => Promise<GroupModel>
+  hasLead: (groupId: number, leadId: number) => Promise<boolean>
 }
