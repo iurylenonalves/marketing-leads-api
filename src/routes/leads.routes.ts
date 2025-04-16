@@ -94,7 +94,7 @@ leadsRouter.get("/", leadsController.index);
  *               email:
  *                 type: string
  *                 format: email
- *                 example: "john@example.com"
+ *                 example: "example@example.com"
  *               phone:
  *                 type: string
  *                 example: "(555) 123-4567"

@@ -41,7 +41,7 @@ groupsRouter.get("/", groupsController.index);
  *             properties:
  *               name:
  *                 type: string
- *                 example: "VIP Customers"
+ *                 example: "Golden Customers"
  *               description:
  *                 type: string
  *                 example: "Our most important customers"

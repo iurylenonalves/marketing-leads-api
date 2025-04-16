@@ -42,7 +42,7 @@ campaignsRouter.get("/", campaignsController.index);
  *             properties:
  *               name:
  *                 type: string
- *                 example: "Summer Sale 2023"
+ *                 example: "Summer Express Sale 2023"
  *               description:
  *                 type: string
  *                 example: "Promotion for summer products"
