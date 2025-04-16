@@ -21,6 +21,10 @@ const swaggerDefinition = {
       url: 'http://localhost:3000/api',
       description: 'Development server',
     },
+    {
+      url: '/api',
+      description: 'Production server',
+    }    
   ],
   tags: [
     {
@@ -160,22 +164,20 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: ['./src/routes/*.ts'], // Caminho para os arquivos de rota
+  apis: ['./src/routes/*.ts'], 
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-const swaggerDocs = (app: any, port: number) => {
-  // Rota para acessar a documentação
+const swaggerDocs = (app: any, port: number) => {  
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  
-  // Rota para o arquivo JSON da documentação
+
   app.get('/api-docs.json', (req: any, res: any) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
   
-  console.log(`📚 Swagger docs disponíveis em http://localhost:${port}/api-docs`);
+  console.log(`📚 Swagger docs avaiables at http://localhost:${port}/api-docs`);
 };
 
 export { swaggerDocs };

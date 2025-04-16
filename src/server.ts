@@ -8,11 +8,19 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+
+swaggerDocs(app, Number(process.env.PORT || 3000))
+
 app.use("/api", router)
 app.use(errorHandlerMiddleware)
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Server ir running on http://localhost:${PORT}`)
-  swaggerDocs(app, Number(PORT))
-})
+
+
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`)
+  })
+}
+
+export default app
