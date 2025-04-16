@@ -1,5 +1,4 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 import { Express } from 'express';
 
 const swaggerDefinition = {
@@ -166,15 +165,58 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
-const swaggerDocs = (app: Express, port: number) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  
+const swaggerCdnDocs = (app: Express, port: number) => {  
+  // Rota para servir o JSON do Swagger
   app.get('/api-docs.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
-  
+
+  // Página HTML do Swagger UI usando CDN
+  app.get('/api-docs', (req, res) => {
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <title>Lead Management API - Swagger UI</title>
+        <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4/swagger-ui.css">
+        <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@4/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@4/favicon-16x16.png" sizes="16x16" />
+        <style>
+          html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
+          *, *:before, *:after { box-sizing: inherit; }
+          body { margin: 0; background: #fafafa; }
+        </style>
+      </head>
+      <body>
+        <div id="swagger-ui"></div>
+        <script src="https://unpkg.com/swagger-ui-dist@4/swagger-ui-bundle.js"></script>
+        <script src="https://unpkg.com/swagger-ui-dist@4/swagger-ui-standalone-preset.js"></script>
+        <script>
+          window.onload = function() {
+            const ui = SwaggerUIBundle({
+              url: window.location.origin + "/api-docs.json",
+              dom_id: '#swagger-ui',
+              deepLinking: true,
+              presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+              ],
+              plugins: [
+                SwaggerUIBundle.plugins.DownloadUrl
+              ],
+              layout: "StandaloneLayout"
+            });
+            window.ui = ui;
+          }
+        </script>
+      </body>
+      </html>
+    `);
+  });
+
   console.log(`📚 Swagger docs available at http://localhost:${port}/api-docs`);
 };
 
-export { swaggerDocs };
+export { swaggerCdnDocs };
