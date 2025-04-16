@@ -1,5 +1,6 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import { Express } from 'express';
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -16,14 +17,10 @@ const swaggerDefinition = {
       url: 'https://opensource.org/licenses/MIT',
     },
   },
-  servers: [
-    {
-      url: 'http://localhost:3000/api',
-      description: 'Development server',
-    },
+  servers: [    
     {
       url: '/api',
-      description: 'Production server',
+      description: 'API server',
     }    
   ],
   tags: [
@@ -169,14 +166,21 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
-const swaggerDocs = (app: any, port: number) => {  
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerDocs = (app: Express, port: number) => {  
+  const swaggerUiOptions = {
+    explorer: true,
+    swaggerOptions: {
+      url: '/api-docs.json',
+    },
+  };
 
   app.get('/api-docs.json', (req: any, res: any) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
   
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
+
   console.log(`📚 Swagger docs avaiables at http://localhost:${port}/api-docs`);
 };
 

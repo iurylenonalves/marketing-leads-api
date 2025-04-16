@@ -11,6 +11,10 @@ app.use(express.json())
 
 swaggerDocs(app, Number(process.env.PORT || 3000))
 
+app.get('/', (req, res) => {
+  res.json({ message: 'API is running. Access /api-docs for documentation.' });
+});
+
 app.use("/api", router)
 app.use(errorHandlerMiddleware)
 
