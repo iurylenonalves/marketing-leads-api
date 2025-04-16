@@ -169,20 +169,21 @@ const swaggerCdnDocs = (app: Express, port: number) => {
   // Rota para servir o JSON do Swagger
   app.get('/api-docs.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send(swaggerSpec);
   });
 
   // Página HTML do Swagger UI usando CDN
   app.get('/api-docs', (req, res) => {
     res.send(`
-      <!DOCTYPE html>
+    <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
       <title>Lead Management API - Swagger UI</title>
-      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css">
-      <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@4.5.0/favicon-32x32.png" sizes="32x32" />
-      <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@4.5.0/favicon-16x16.png" sizes="16x16" />
+      <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui.css">
+      <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@4.15.5/favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@4.15.5/favicon-16x16.png" sizes="16x16" />
       <style>
         html { box-sizing: border-box; overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
         *, *:before, *:after { box-sizing: inherit; }
@@ -191,23 +192,18 @@ const swaggerCdnDocs = (app: Express, port: number) => {
     </head>
     <body>
       <div id="swagger-ui"></div>
-      <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js"></script>
-      <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-standalone-preset.js"></script>
+      <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
+      <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-standalone-preset.js"></script>
       <script>
         window.onload = function() {
-          // Check hash in URL for deepLinking to work
-          const urlParams = new URLSearchParams(window.location.search);
+          // Fixed configuration - using newer version of Swagger UI
           const ui = SwaggerUIBundle({
             url: window.location.origin + "/api-docs.json",
             dom_id: '#swagger-ui',
             deepLinking: true,
-            docExpansion: 'list',
-            filter: true,
-            tryItOutEnabled: true,
-            syntaxHighlight: {
-              activate: true,
-              theme: "agate"
-            },
+            tagsSorter: 'alpha',
+            operationsSorter: 'alpha',
+            docExpansion: 'none',
             presets: [
               SwaggerUIBundle.presets.apis,
               SwaggerUIStandalonePreset
@@ -216,30 +212,49 @@ const swaggerCdnDocs = (app: Express, port: number) => {
               SwaggerUIBundle.plugins.DownloadUrl
             ],
             layout: "StandaloneLayout",
+            validatorUrl: null,
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             onComplete: function() {
-              // Enable any tag that is in the URL
-              if (window.location.hash) {
-                console.log("Hash found:", window.location.hash);
-                const tagName = window.location.hash.substring(2); // Remove o #/
-                setTimeout(() => {
-                  // Try to expand the tag automatically
-                  const tagElements = document.querySelectorAll('.opblock-tag');
-                  for (const elem of tagElements) {
-                    if (elem.textContent.trim() === tagName) {
-                      elem.click();
-                      break;
-                    }
-                  }
-                }, 500);
-              }
+              // Handle navigation after UI is loaded
+              const handleNavigation = () => {
+                if (window.location.hash && window.location.hash.length > 1) {
+                  const tagName = window.location.hash.substring(2); // Remove the '#/'
+                  console.log("Hash navigation: ", tagName);
+                  
+                  // Find and expand the tag
+                  setTimeout(() => {
+                    const tagElements = document.querySelectorAll('.opblock-tag');
+                    tagElements.forEach(elem => {
+                      const text = elem.textContent.trim();
+                      if (text === tagName) {
+                        if (!elem.classList.contains('is-open')) {
+                          elem.click();
+                        }
+                      }
+                    });
+                  }, 300);
+                }
+              };
+              
+              // Handle initial load
+              handleNavigation();
+              
+              // Also handle hash changes
+              window.addEventListener('hashchange', handleNavigation);
             }
           });
+          
           window.ui = ui;
         }
       </script>
     </body>
     </html>
     `);
+  });
+
+  app.get('/api-docs/section/:tag', (req, res) => {
+    const tag = req.params.tag;
+    res.redirect(`/api-docs#/${tag}`);
   });
 
   console.log(`📚 Swagger docs available at http://localhost:${port}/api-docs`);
