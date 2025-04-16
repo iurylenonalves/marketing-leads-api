@@ -31,7 +31,7 @@ A backend system for managing leads, groups, and campaigns using Node.js, Expres
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/leads-management.git
+   git clone https://github.com/iurylenonalves/marketing-leads-api.git
    cd leads-management
 
 2. Install dependencies:

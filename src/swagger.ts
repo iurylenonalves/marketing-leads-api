@@ -8,8 +8,8 @@ const swaggerDefinition = {
     version: '1.0.0',
     description: 'API to manage leads, groups, and marketing campaigns',
     contact: {
-      name: 'Your Name',
-      url: 'https://github.com/seu-usuario/leads-management',
+      name: 'Iury Lenon',
+      url: 'https://github.com/iurylenonalves/marketing-leads-api.git',
     },
     license: {
       name: 'MIT',
