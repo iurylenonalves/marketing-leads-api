@@ -167,7 +167,12 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 const swaggerDocs = (app: Express, port: number) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  const swaggerUiOptions = {
+    explorer: true,
+    docExpansion: 'list',
+  };
+  
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
   
   app.get('/api-docs.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');

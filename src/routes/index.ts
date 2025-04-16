@@ -18,7 +18,7 @@ router.use("/campaigns/:campaignId/leads", campaignLeadsRouter);
 
 router.get("/status", async (req,res, next) => {
   try {
-    throw new HttpError(401, "Unauthorized")
+    // throw new HttpError(401, "Unauthorized")
     res.json({ message: "OK" })
   } catch (error) {
     next(error)
