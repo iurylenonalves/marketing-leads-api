@@ -1,7 +1,5 @@
 import { Handler } from "express";
 import { CreateGroupsRequestSchema, UpdateGroupsRequestSchema } from "./schemas/GroupsRequestSchema";
-import { HttpError } from "../errors/HttpError";
-import { GroupsRepository } from "../repositories/GroupsRepository";
 import { GroupsService } from "../services/GroupsService";
 
 export class GroupsController {

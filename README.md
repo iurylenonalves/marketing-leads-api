@@ -2,6 +2,13 @@
 
 A backend system for managing leads, groups, and campaigns using Node.js, Express, TypeScript, and Prisma ORM.
 
+## 🌐 Live Demo
+
+The API is deployed and available for testing:
+
+- **API URL**: [https://marketing-leads-api.onrender.com](https://marketing-leads-api.onrender.com)
+- **API Documentation**: [https://marketing-leads-api.onrender.com/api-docs](https://marketing-leads-api.onrender.com/api-docs)
+
 ## 🚀 Features
 
 - Complete lead management (CRUD)
@@ -32,24 +39,62 @@ A backend system for managing leads, groups, and campaigns using Node.js, Expres
 1. Clone the repository:
    ```bash
    git clone https://github.com/iurylenonalves/marketing-leads-api.git
-   cd leads-management
+   cd marketing-leads-api
+   ```
 
 2. Install dependencies:
    ```bash
    npm install
+   ```
 
 3. Configure environment variables:
    ```bash
    cp .env.example .env
    # Edite o arquivo .env com suas configurações
+   ```
 
 4. Run database migrations:
    ```bash
    npx prisma migrate dev
+   ```
 
 5. Start the server:
    ```bash
    npm run dev
+   ```
+## 🚢 Deployment
+This project is deployed on Render. To deploy your own instance:
+
+Deploying on Render
+1. Fork or clone this repository
+2. Create a Render account at [render.com](https://render.com/)
+3. Create a PostgreSQL database in Render:
+    - Go to Dashboard → New → PostgreSQL
+    - Choose a name for your database
+    - Note the connection string provided
+4. Create a Web Service:
+
+    - Dashboard → New → Web Service
+    - Connect your GitHub repository
+    - Configure:
+        - Name: marketing-leads-api (or your preferred name)
+        - Environment: Node
+        - Build Command: npm install
+        - Start Command: npm start
+    - Add Environment Variable:
+        - Key: DATABASE_URL
+        - Value: Your PostgreSQL connection string from step 3
+5. Deploy:
+    - Click "Create Web Service"
+    - Render will automatically deploy your application
+
+The deployment process will:
+
+- Install all dependencies
+- Generate Prisma client
+- Apply database migrations
+- Seed the database with initial data
+- Start the server
 
 ## 📚 Project Structure
    ```bass
@@ -72,7 +117,7 @@ A backend system for managing leads, groups, and campaigns using Node.js, Expres
 ## 🏗️ Architecture & Database
 
 ### System Architecture
-![System Architecture](./docs/images/architecture_diagram.png)
+![System Architecture](./docs/images/diagrams/architecture_diagram.png)
 
 This architecture follows a layered approach with:
 - **Controllers**: Handle HTTP requests and responses
@@ -81,7 +126,7 @@ This architecture follows a layered approach with:
 - **Database**: PostgreSQL with Prisma ORM
 
 ### Database Schema
-![Database Schema](./docs/images/database_diagram.png)
+![Database Schema](./docs/images/diagrams/database_diagram.png)
 
 The database schema shows the relationships between:
 - **Leads**: Core entity representing potential customers
@@ -172,3 +217,4 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 [Iury Lenon](https://github.com/iurylenonalves)
 
 Feel free to reach out if you have questions or suggestions!
+

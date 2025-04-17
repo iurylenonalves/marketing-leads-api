@@ -25,7 +25,7 @@ app.get('/health', (req, res) => {
 
 
 app.get('/', (req, res) => {
-  res.json({ message: 'API is running. Access /api-docs for documentation.' });
+  res.redirect('/api-docs');
 });
 
 
