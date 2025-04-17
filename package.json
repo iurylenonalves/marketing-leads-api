@@ -1,13 +1,13 @@
 {
   "name": "19leads",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lead Management API",
   "main": "index.js",
   "scripts": {
     "build": "echo 'No build needed with tsx'",
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && prisma migrate deploy && prisma db seed"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
