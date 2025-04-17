@@ -136,9 +136,17 @@ The database schema shows the relationships between:
 
 ## 📖 API Documentation
 The API is documented using Swagger/OpenAPI. When the server is running, you can access the interactive documentation at:
+
+**Local Development:**
 ```
 http://localhost:3000/api-docs
 ```
+
+**Production**
+```
+https://marketing-leads-api.onrender.com/api-docs
+```
+The Swagger UI allows you to explore and test all API endpoints directly in your browser.
 
 ### Interactive Demo
 
@@ -147,8 +155,11 @@ http://localhost:3000/api-docs
 
 ### Documentation Screenshots
 
-![Swagger Overview](./docs/images/swagger_overview.png)
+![Swagger Overview](./docs/images/screenshots/api-server-swagger01.PNG)
+
+![Swagger Overview](./docs/images/screenshots/api-server-wagger02.PNG)
 *Overview of all API endpoints in Swagger UI*
+
 
 ### Available Endpoints
 
