@@ -6,7 +6,7 @@
   "scripts": {
     "build": "echo 'No build needed with tsx'",
     "dev": "tsx watch src/server.ts",
-    "start": "NODE_ENV=production -r tsx/cjs src/server.ts",
+    "start": "tsx src/server.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {
