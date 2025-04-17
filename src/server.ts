@@ -25,6 +25,14 @@ app.use(express.json())
 
 
 app.use((req, res, next) => {
+  // Timeout 25 seconds for requests
+  req.setTimeout(25000);
+  res.setTimeout(25000);
+  next();
+});
+
+
+app.use((req, res, next) => {
   const originalSend = res.send;
   res.send = function(body) {
     console.log(`Response for ${req.method} ${req.url}: Status ${res.statusCode}`);
