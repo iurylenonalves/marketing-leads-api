@@ -7,10 +7,10 @@ const swaggerDefinition = {
   info: {
     title: 'Lead Management API',
     version: '1.0.0',
-    description: 'API to manage leads, groups, and marketing campaignsn\n' +
+    description: 'API to manage leads, groups, and marketing campaigns.\n\n' +
     '**Links:**\n' +
-    '- [GitHub Repository](https://github.com/iurylenonalves/marketing-leads-api)\n' +
-    '- [LinkedIn](https://www.linkedin.com/in/iurylenonalves/)',
+    '[GitHub Repository](https://github.com/iurylenonalves/marketing-leads-api)\n' +
+    '[LinkedIn](https://www.linkedin.com/in/iurylenonalves/)',
     contact: {
       name: 'Iury Lenon',
       url: 'https://www.linkedin.com/in/iurylenonalves/',
