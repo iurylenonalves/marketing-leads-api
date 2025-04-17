@@ -1,19 +1,23 @@
 import { PrismaClient } from '@prisma/client';
+import { testPrismaConnection } from './prisma-diagnostic';
 
-// Para evitar múltiplas conexões em ambiente serverless
-const prismaClientSingleton = () => {
-  return new PrismaClient({
-    // Log apenas em ambiente de desenvolvimento
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient({
+  log: ['query', 'info', 'warn', 'error'],
+});
+
+
+testPrismaConnection()
+  .then(result => {
+    if (result.success) {
+      console.log('Prisma initialized successfully');
+    } else {
+      console.error('Prisma initialization failed:', result.error);
+    }
+  })
+  .catch(err => {
+    console.error('Failed to run Prisma diagnostics:', err);
   });
-};
 
-type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
-
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClientSingleton | undefined;
-};
-
-export const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
