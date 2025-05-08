@@ -45,7 +45,7 @@ export class LeadsService {
     return lead
   }
 
-  async createlead(params: CreateLeadAttributes) {
+  async createLead(params: CreateLeadAttributes) {
     if (!params.status) params.status = "New"
     const newLead = await this.leadsRepository.create(params)
     return newLead
