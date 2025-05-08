@@ -16,19 +16,19 @@ export class GroupsService {
 
   async showGroup(id: number) {
     const group = await this.groupsRepository.findById(id);
-    if (!group) throw new HttpError(404, "Grupo não encontrado");
+    if (!group) throw new HttpError(404, "Group not found");
     return group;
   }
 
   async updateGroup(id: number, attributes: Partial<CreateGroupAttributes>) {
     const updatedGroup = await this.groupsRepository.updateById(id, attributes);
-    if (!updatedGroup) throw new HttpError(404, "Grupo não encontrado");
+    if (!updatedGroup) throw new HttpError(404, "Group not found");
     return updatedGroup;
   }
 
   async deleteGroup(id: number) {
     const deletedGroup = await this.groupsRepository.deleteById(id);
-    if (!deletedGroup) throw new HttpError(404, "Grupo não encontrado");
+    if (!deletedGroup) throw new HttpError(404, "Group not found");
     return deletedGroup;
   }
 }
