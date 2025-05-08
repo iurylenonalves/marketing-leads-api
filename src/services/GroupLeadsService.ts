@@ -62,11 +62,11 @@ export class GroupLeadsService {
   async addLead(groupId: number, leadId: number) {
     // Verificar se o grupo existe
     const group = await this.groupsRepository.findById(groupId);
-    if (!group) throw new HttpError(404, "Grupo não encontrado");
+    if (!group) throw new HttpError(404, "Group not found");
     
     // Verificar se o lead existe
     const lead = await this.leadsRepository.findById(leadId);
-    if (!lead) throw new HttpError(404, "Lead não encontrado");
+    if (!lead) throw new HttpError(404, "Lead not found");
     
     // Adicionar o lead ao grupo
     const updatedGroup = await this.groupsRepository.addLead(groupId, leadId);
@@ -76,15 +76,15 @@ export class GroupLeadsService {
   async removeLead(groupId: number, leadId: number) {
     // Verificar se o grupo existe
     const group = await this.groupsRepository.findById(groupId);
-    if (!group) throw new HttpError(404, "Grupo não encontrado");
+    if (!group) throw new HttpError(404, "Group not found");
     
     // Verificar se o lead existe
     const lead = await this.leadsRepository.findById(leadId);
-    if (!lead) throw new HttpError(404, "Lead não encontrado");
+    if (!lead) throw new HttpError(404, "Lead not found");
     
     // Verificar se o lead está no grupo
     const leadInGroup = await this.groupsRepository.hasLead(groupId, leadId);
-    if (!leadInGroup) throw new HttpError(404, "Lead não está associado a este grupo");
+    if (!leadInGroup) throw new HttpError(404, "Lead not associated with this group");
     
     // Remover o lead do grupo
     const updatedGroup = await this.groupsRepository.removeLead(groupId, leadId);
