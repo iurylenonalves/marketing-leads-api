@@ -7,25 +7,29 @@ export class LeadsController {
 
   index: Handler = async (req, res, next) => {
     try {
-      const query = GetLeadsRequestSchema.parse(req.query)
-      const { page = "1", pageSize = "10" } = query
+      const parsed = GetLeadsRequestSchema.safeParse(req.query);
+      if (!parsed.success) {
+        res.status(400).json({ error: parsed.error.errors.map(e => e.message).join(", ") });
+        return;
+      }
+      const { page = "1", pageSize = "10" } = parsed.data;
 
       const result = await this.leadsService.getAllLeadsPagineted({
-        ...query,
+        ...parsed.data,
         page: Number(page),
         pageSize: Number(pageSize),
-      })
+      });
 
-      res.json(result)
+      res.json(result);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
   create: Handler = async (req, res, next) => {
     try {
       const body = CreateLeadRequestSchema.parse(req.body)
-      const newLead = await this.leadsService.createlead(body)
+      const newLead = await this.leadsService.createLead(body)
       res.status(201).json(newLead)
     } catch (error) {
       next(error)
