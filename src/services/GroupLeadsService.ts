@@ -67,6 +67,10 @@ export class GroupLeadsService {
     // Verificar se o lead existe
     const lead = await this.leadsRepository.findById(leadId);
     if (!lead) throw new HttpError(404, "Lead not found");
+
+    // Verificar se o lead já está no grupo
+    const alreadyInGroup = await this.groupsRepository.hasLead(groupId, leadId);
+    if (alreadyInGroup) throw new HttpError(409, "Lead already in group");
     
     // Adicionar o lead ao grupo
     const updatedGroup = await this.groupsRepository.addLead(groupId, leadId);

@@ -9,9 +9,17 @@ export class GroupLeadsController {
 
   getLeads: Handler = async (req, res, next) => {       
     try {
-      const groupId = Number(req.params.groupId)
-      const query = GetLeadsRequestSchema.parse(req.query)
-      const { page = "1", pageSize = "10", name, status, sortBy = "name", order = "asc" } = query
+    const groupId = Number(req.params.groupId);
+    if (isNaN(groupId)) {
+      res.status(400).json({ error: "Invalid groupId param" });
+      return;
+    }
+    const parsed = GetLeadsRequestSchema.safeParse(req.query);
+    if (!parsed.success) {
+      res.status(400).json({ error: parsed.error.errors.map(e => e.message).join(", ") });
+      return;
+    }
+      const { page = "1", pageSize = "10", name, status, sortBy = "name", order = "asc" } = parsed.data;
 
       const result = await this.groupLeadsService.getLeads({
         groupId,
