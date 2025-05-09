@@ -28,12 +28,12 @@ const LeadCampaignStatusSchema = z.enum([
 ])
 
 export const GetCampaignLeadsRequestSchema = z.object({
+  page: z.string().optional().default("1").refine((v) => !isNaN(Number(v)) && Number(v) > 0, { message: "Invalid page" }),
+  pageSize: z.string().optional().default("10").refine((v) => !isNaN(Number(v)) && Number(v) > 0, { message: "Invalid pageSize" }),
   name: z.string().optional(),
-    page: z.string().optional(),
-    pageSize: z.string().optional(),
-    status: LeadCampaignStatusSchema.optional(),
-    sortBy: z.enum(["name", "createdAt"]).optional(),
-    order: z.enum(["asc", "desc"]).optional()
+  status: LeadCampaignStatusSchema.optional(),
+  sortBy: z.enum(["name", "createdAt"]).optional(),
+  order: z.enum(["asc", "desc"]).optional()
 })
 
 export const AddLeadRequestSchema = z.object({

@@ -8,8 +8,17 @@ export class CampaignLeadsController {
   getLeads: Handler = async (req, res, next) => {
     try {
       const campaignId = Number(req.params.campaignId);
-      const query = GetCampaignLeadsRequestSchema.parse(req.query);
-      const { page = "1", pageSize = "10", name, status, sortBy = "name", order = "asc" } = query;
+      if (isNaN(campaignId)) {
+        res.status(400).json({ error: "Invalid campaignId param" });
+        return;
+      }
+
+      const parsed = GetCampaignLeadsRequestSchema.safeParse(req.query);
+      if (!parsed.success) {
+        res.status(400).json({ error: parsed.error.errors.map(e => e.message).join(", ") });
+        return;
+      }
+      const { page = "1", pageSize = "10", name, status, sortBy = "name", order = "asc" } = parsed.data;
 
       const result = await this.campaignLeadsService.getLeads({
         campaignId,
@@ -31,8 +40,10 @@ export class CampaignLeadsController {
     try {
       const campaignId = Number(req.params.campaignId)
       const { leadId, status = "New" } = AddLeadRequestSchema.parse(req.body)      
-      await this.campaignLeadsService.addLead( campaignId, leadId, status )      
-      res.status(201).end()
+      await this.campaignLeadsService.addLead( campaignId, leadId, status )
+      
+      const result = await this.campaignLeadsService.getLeads({ campaignId })
+      res.status(201).json({ leads: result.leads })
     } catch (error) {
       next(error)
     }
@@ -44,7 +55,7 @@ export class CampaignLeadsController {
       const leadId = Number(req.params.leadId)
       const {status} = UpdateLeadStatusRequestSchema.parse(req.body)
       await this.campaignLeadsService.updateLeadStatus( campaignId, leadId, status )
-      res.status(200).json({ message: "Lead status updated" })
+      res.status(200).json({ status })
     } catch (error) {
       next(error)
     }
@@ -55,7 +66,9 @@ export class CampaignLeadsController {
       const campaignId = Number(req.params.campaignId)
       const leadId = Number(req.params.leadId)
       await this.campaignLeadsService.removeLead(campaignId, leadId)
-      res.json({ message: "Lead removed from campaign" })
+
+      const result = await this.campaignLeadsService.getLeads({ campaignId })
+      res.status(200).json({ leads: result.leads })
     } catch (error) {
       next(error)
     }

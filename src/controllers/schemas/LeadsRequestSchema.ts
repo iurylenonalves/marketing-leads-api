@@ -12,8 +12,8 @@ const LeadStatusSchema = z.enum([
 
 export const GetLeadsRequestSchema = z.object({
   name: z.string().optional(),
-  page: z.string().optional(),
-  pageSize: z.string().optional(),
+  page: z.string().optional().default("1").refine((v) => !isNaN(Number(v)) && Number(v) > 0, { message: "Invalid page" }),
+  pageSize: z.string().optional().default("10").refine((v) => !isNaN(Number(v)) && Number(v) > 0, { message: "Invalid pageSize" }),
   status: LeadStatusSchema.optional(),
   sortBy: z.enum(["name", "status", "createdAt"]).optional(),
   order: z.enum(["asc", "desc"]).optional()
