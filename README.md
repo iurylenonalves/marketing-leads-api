@@ -6,8 +6,8 @@ A backend system for managing leads, groups, and campaigns using Node.js, Expres
 
 The API is currently being deployed to a custom VPS. Live demo links will be updated shortly!
 
-- **API URL**: (To be updated)
-- **API Documentation**: (To be updated)
+- **API URL**: [https://api.iurylenon.com](https://api.iurylenon.com)
+- **API Documentation**: [https://api.iurylenon.com/api-docs](https://api.iurylenon.com/api-docs)
 
 ## 🚀 Features
 
@@ -118,7 +118,7 @@ http://localhost:3000/api-docs
 
 **Production**
 ```
-(To be updated)
+https://api.iurylenon.com/api-docs
 ```
 The Swagger UI allows you to explore and test all API endpoints directly in your browser.
 
