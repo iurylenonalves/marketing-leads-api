@@ -4,10 +4,10 @@ A backend system for managing leads, groups, and campaigns using Node.js, Expres
 
 ## 🌐 Live Demo
 
-The API is deployed and available for testing:
+The API is currently being deployed to a custom VPS. Live demo links will be updated shortly!
 
-- **API URL**: [https://marketing-leads-api.onrender.com](https://marketing-leads-api.onrender.com)
-- **API Documentation**: [https://marketing-leads-api.onrender.com/api-docs](https://marketing-leads-api.onrender.com/api-docs)
+- **API URL**: (To be updated)
+- **API Documentation**: (To be updated)
 
 ## 🚀 Features
 
@@ -25,6 +25,9 @@ The API is deployed and available for testing:
 - **Prisma ORM**: Modern ORM for database interaction
 - **PostgreSQL**: Relational database system
 - **Zod**: Data validation and type safety
+- **PM2**: Production Process Manager for Node.js applications.
+- **Nginx**: Reverse Proxy for API exposure and security.
+- **Jest & Supertest**: Testing framework and HTTP assertions
 - **Architecture Patterns**: Repositories, Services, and Controllers
 - **API Documentation**: Swagger/OpenAPI
 - **SOLID Principles**: Clean, maintainable code design
@@ -50,7 +53,7 @@ The API is deployed and available for testing:
 3. Configure environment variables:
    ```bash
    cp .env.example .env
-   # Edite o arquivo .env com suas configurações
+   # Edit .env with your configuration
    ```
 
 4. Run database migrations:
@@ -62,46 +65,15 @@ The API is deployed and available for testing:
    ```bash
    npm run dev
    ```
-## 🚢 Deployment
-This project is deployed on Render. To deploy your own instance:
-
-Deploying on Render
-1. Fork or clone this repository
-2. Create a Render account at [render.com](https://render.com/)
-3. Create a PostgreSQL database in Render:
-    - Go to Dashboard → New → PostgreSQL
-    - Choose a name for your database
-    - Note the connection string provided
-4. Create a Web Service:
-
-    - Dashboard → New → Web Service
-    - Connect your GitHub repository
-    - Configure:
-        - Name: marketing-leads-api (or your preferred name)
-        - Environment: Node
-        - Build Command: npm install
-        - Start Command: npm start
-    - Add Environment Variable:
-        - Key: DATABASE_URL
-        - Value: Your PostgreSQL connection string from step 3
-5. Deploy:
-    - Click "Create Web Service"
-    - Render will automatically deploy your application
-
-The deployment process will:
-
-- Install all dependencies
-- Generate Prisma client
-- Apply database migrations
-- Seed the database with initial data
-- Start the server
 
 ## 📚 Project Structure
-   ```bass
+   ```bash
     src/
+├── __tests__/       # End-to-end (E2E) tests
 ├── controllers/     # Request handlers
 ├── services/        # Business logic
 ├── repositories/    # Data access abstraction
+├── database/        # Database connection and configuration
 ├── routes/          # API routes definition
 │   ├── index.ts     # Routes aggregator
 │   ├── leads.routes.ts
@@ -111,7 +83,9 @@ The deployment process will:
 │   └── campaignLeads.routes.ts
 ├── middlewares/     # Express middlewares
 ├── errors/          # Error classes and handlers
-└── server.ts        # Application entry point
+├── app.ts           # App configuration
+├── server.ts        # Application entry point
+└── swagger.ts       # Swagger configuration
    ```
 
 ## 🏗️ Architecture & Database
@@ -144,7 +118,7 @@ http://localhost:3000/api-docs
 
 **Production**
 ```
-https://marketing-leads-api.onrender.com/api-docs
+(To be updated)
 ```
 The Swagger UI allows you to explore and test all API endpoints directly in your browser.
 
@@ -210,7 +184,18 @@ This project follows clean architecture principles:
 5. Input Validation: Request data is validated before processing
 
 ## 🧪 Tests
-Coming soon. The project will include unit tests for services, integration tests for repositories, and E2E tests for API endpoints.
+
+The project includes unit tests for services and end-to-end (E2E) tests for API endpoints.
+
+To run the tests:
+
+```bash
+# Run all tests
+npm test
+
+# Run only E2E tests
+npm run test:e2e
+```
 
 ## 🤝 Contributing
 Contributions are welcome! Please follow these steps:
