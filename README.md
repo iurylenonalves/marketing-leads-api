@@ -4,7 +4,7 @@ A backend system for managing leads, groups, and campaigns using Node.js, Expres
 
 ## 🌐 Live Demo
 
-The API is currently being deployed to a custom VPS. Live demo links will be updated shortly!
+The API is deployed on a custom VPS using a modern containerized architecture. 
 
 - **API URL**: [https://api.iurylenon.com](https://api.iurylenon.com)
 - **API Documentation**: [https://api.iurylenon.com/api-docs](https://api.iurylenon.com/api-docs)
@@ -17,6 +17,7 @@ The API is currently being deployed to a custom VPS. Live demo links will be upd
 - Tracking lead status in campaigns
 - RESTful API with comprehensive documentation
 - Clean architecture with separation of concerns
+- Fully containerized deployment with automated SSL generation
 
 ## 🛠️ Technologies
 
@@ -25,8 +26,8 @@ The API is currently being deployed to a custom VPS. Live demo links will be upd
 - **Prisma ORM**: Modern ORM for database interaction
 - **PostgreSQL**: Relational database system
 - **Zod**: Data validation and type safety
-- **PM2**: Production Process Manager for Node.js applications.
-- **Nginx**: Reverse Proxy for API exposure and security.
+- **Docker & Docker Compose**: Containerization and orchestration for reliable deployments
+- **Traefik**: Cloud-native edge router and reverse proxy with automatic SSL (Let's Encrypt)
 - **Jest & Supertest**: Testing framework and HTTP assertions
 - **Architecture Patterns**: Repositories, Services, and Controllers
 - **API Documentation**: Swagger/OpenAPI
@@ -34,10 +35,11 @@ The API is currently being deployed to a custom VPS. Live demo links will be upd
 
 ## 📋 Prerequisites
 
-- Node.js v16+
-- PostgreSQL or Docker
+- Node.js v24+ (For local development)
+- PostgreSQL
+- Docker & Docker Compose (For production deployment)
 
-## 🔧 Installation
+## 🔧 Local Development
 
 1. Clone the repository:
    ```bash
@@ -64,6 +66,43 @@ The API is currently being deployed to a custom VPS. Live demo links will be upd
 5. Start the server:
    ```bash
    npm run dev
+   ```
+
+##🐳 Production Deployment (Docker)
+
+This project is configured to run in a production environment using Docker and Traefik as a reverse proxy.
+
+1. Ensure you have a Traefik instance running on your server and a Docker network named web created.
+   ```bash
+   docker network create web
+   ```
+
+2. Clone the repository on your server and navigate to it:
+   ```bash
+   git clone https://github.com/iurylenonalves/marketing-leads-api.git
+   cd marketing-leads-api
+   ```
+
+3. Create the production .env file (never commit this file):
+   ```bash
+   nano .env
+   ```
+
+   Note: If your PostgreSQL is running on the host machine, use host.docker.internal in your DATABASE_URL.
+
+   ```bash
+   DATABASE_URL="postgresql://user:password@host.docker.internal:5432/marketing_leads_db?schema=public"
+   PORT=3000
+   ```
+
+4. Build and start the container:
+   ```bash
+   docker compose up -d --build
+   ```
+
+5. Run Prisma migrations inside the container (if necessary):
+   ```bash
+   docker exec -it marketing-leads-api npx prisma migrate deploy
    ```
 
 ## 📚 Project Structure
@@ -213,4 +252,3 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 [Iury Lenon](https://github.com/iurylenonalves)
 
 Feel free to reach out if you have questions or suggestions!
-
